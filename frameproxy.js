@@ -22,60 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 /*
- 	
  	-- FrameProxy --
- 
- Allows to create proxies (client and server) between windows/frames (eg. iframes)
- to make ajax call through a proxy page.
- This can be useful to invoke services without cross-origin support.
- 
+ 	 
  Requirements:
- 	- jQuery 1.6+
- 
- How to use:
- 
- 		- Host frameproxy.js and frameproxy.htm in the same domain of the service to invoke.
- 		- Modify frameproxy.htm to restrict access by password, or by a list of allowed domains,
- 				uris, or expressiones/functions.
- 			options.domain, options.uri and options.expressions accept:
- 				- a string, '*' (all), a filter function or a RegExp
-         		- an Array of the any of the previous
-         
-      - Now on any-domain page you can:
-      
-      	// create a client proxy by loading a hidden iframe 
-          var proxy = new frameproxy.ProxyClient('http://myrestrictedhost/frameproxy.htm')
-          
-          	// wrap all functions in frameproxy.functions
-          	.wrapAll()
-          
-          	// or, wrap all functions in frameproxy.functions, and replace them by the proxied versions
-          	.wrapAll(true)
-          
-          	// or, wrap other functions or properties 
-          	.wrap('navigator.userAgent', 'bloglib.getBlogComments')
-          
-          	// or, wrap other functions or properties, and replace them by the proxied versions
-          	.wrap(true, 'navigator.userAgent', 'bloglib.getBlogComments')
-          
-				.ready(function(){
- 
-              	// if used .wrapAll()
-              	proxy.jQuery.ajax( ... ).then(done, fail);
-              
-              	// if you used .wrapAll(true), transparent proxying
-              	$.ajax({ url: 'mydata.json' });
-              
-              	// if you used .wrap('navigator.userAgent')
-              	proxy.navigator.userAgent().done(function(e){ alert('agent: '+e.result); });
-              	// note that properties are replaced by functions
-              
-              	// if you used .wrap(true, 'bloglib.getBlogComments')
-              	proxy.bloglib.getBlogComments({user:'jsmith'}).done(function(e){ alert('commments: '+e.data); });
-              
-              	// proxied functions return a jQuery promise
-          	});
-     
+ 	- jQuery 1.5+     
  */
 
 (function($){
