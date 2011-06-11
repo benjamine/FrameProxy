@@ -31,39 +31,37 @@ All invocations return a jQuery promise object so integration with jQuery is str
 ### 2. Client-side
 * An a different domain page you can create a frameproxy client (this will load a hidden iframe):
 
-´´´ javascript
-
-  var proxy = new frameproxy.ProxyClient('http://myhost/frameproxy.htm')
+        var proxy = new frameproxy.ProxyClient('http://myhost/frameproxy.htm')
+              
+          // wrap all functions in frameproxy.functions
+          .wrapAll()
+                
+          // or, wrap all functions in frameproxy.functions, and replace them by the proxied versions
+          .wrapAll(true)
+              
+          // or, wrap other functions or properties 
+          .wrap('navigator.userAgent', 'bloglib.getBlogComments')
           
-	// wrap all functions in frameproxy.functions
-	.wrapAll()
-			  
-	// or, wrap all functions in frameproxy.functions, and replace them by the proxied versions
-	.wrapAll(true)
+          // or, wrap other functions or properties, and replace them by the proxied versions
+          .wrap(true, 'navigator.userAgent', 'bloglib.getBlogComments')
           
-	// or, wrap other functions or properties 
-	.wrap('navigator.userAgent', 'bloglib.getBlogComments')
-  
-	// or, wrap other functions or properties, and replace them by the proxied versions
-	.wrap(true, 'navigator.userAgent', 'bloglib.getBlogComments')
-  
-	// invoked when proxy is ready to use
-	.ready(function(){
+          // invoked when proxy is ready to use
+          .ready(function(){
 
-		// if used .wrapAll() now you can:
-		proxy.jQuery.ajax({ url: 'http://myhost/safedata' }).then(done, fail);
-	  
-		// if you used .wrapAll(true), the original function got replaced
-		$.ajax({ url: 'mydata.json' });
-	  
-		// if you used .wrap('navigator.userAgent')
-		proxy.navigator.userAgent().done(function(e){ alert('agent: '+e.result); });
-		// note that properties are replaced by functions
-	  
-		// if you used .wrap(true, 'bloglib.getBlogComments')
-		bloglib.getBlogComments({user:'jsmith'}).done(function(e){ alert('commments: '+e.data); });
-	  
-		// proxied functions return a jQuery promise
-	});
-	
-´´´
+          // if used .wrapAll() now you can:
+          proxy.jQuery.ajax({ url: 'http://myhost/safedata' }).then(done, fail);
+          
+          // if you used .wrapAll(true), the original function got replaced
+          $.ajax({ url: 'mydata.json' });
+          
+          // if you used .wrap('navigator.userAgent')
+          proxy.navigator.userAgent().done(function(e){ alert('agent: '+e.result); });
+          // note that properties are replaced by functions
+          
+          // if you used .wrap(true, 'bloglib.getBlogComments')
+          bloglib.getBlogComments({user:'jsmith'}).done(function(e){ alert('commments: '+e.data); });
+          
+          // proxied functions return a jQuery promise
+          
+          });
+        
